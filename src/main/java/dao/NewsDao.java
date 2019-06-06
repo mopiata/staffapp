@@ -9,7 +9,7 @@ public interface NewsDao {
     void add(News news);
 
     //READ AND LIST
-    List<News> all();
+    List<News> getAll();
     News findById(int id);
 
 //    //UPDATE

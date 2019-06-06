@@ -12,7 +12,7 @@ public class Sql2oDepartmentDaoTest {
 
     private static Sql2oDepartmentDao departmentDao=new Sql2oDepartmentDao(DB.sql2o);
 
-    public Department addDepartment(){
+    public Department addDepartment() {
         return new Department("Brand and Marketing", "Handles marketing and brand image for the company");
     }
 
@@ -24,7 +24,7 @@ public class Sql2oDepartmentDaoTest {
     public DatabaseRule database = new DatabaseRule();
 
     @Test
-    public void addDepartmentSetsId() {
+    public void addDepartmentSetsId() throws Exception {
         Department department=addDepartment();
         int originalId=department.getId();
 
@@ -34,7 +34,7 @@ public class Sql2oDepartmentDaoTest {
     }
 
     @Test
-    public void getAllReturnsAllDepartments() {
+    public void getAllReturnsAllDepartments() throws Exception {
         Department department=addDepartment();
         Department otherDepartment=otherDepartment();
 
@@ -50,7 +50,7 @@ public class Sql2oDepartmentDaoTest {
     }
 
     @Test
-    public void existingDepartmentsAreFoundById() {
+    public void existingDepartmentsAreFoundById() throws Exception {
         Department department=addDepartment();
         departmentDao.add(department);
 
