@@ -9,7 +9,7 @@ public interface DepartmentDao {
     void add(Department department);
 
     //READ AND LIST
-    List<Department> all();
+    List<Department> getAll();
     Department findById(int id);
 
 //    //UPDATE

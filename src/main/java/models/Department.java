@@ -1,12 +1,10 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Department {
 
-    private int departmentId;
+    private int id;
     private String name;
     private int employeeCount;
     private String description;
@@ -16,12 +14,12 @@ public class Department {
         this.description=description;
     }
 
-    public int getDepartmentId() {
-        return departmentId;
+    public int getId() {
+        return id;
     }
 
-    public void setDepartmentId(int departmentId) {
-        this.departmentId = departmentId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -53,7 +51,7 @@ public class Department {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Department that = (Department) o;
-        return getDepartmentId() == that.getDepartmentId() &&
+        return getId() == that.getId() &&
                 getEmployeeCount() == that.getEmployeeCount() &&
                 Objects.equals(getName(), that.getName()) &&
                 Objects.equals(getDescription(), that.getDescription());
@@ -61,6 +59,6 @@ public class Department {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDepartmentId(), getName(), getEmployeeCount(), getDescription());
+        return Objects.hash(getId(), getName(), getEmployeeCount(), getDescription());
     }
 }
