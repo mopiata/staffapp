@@ -1,4 +1,4 @@
-# _Staff App_
+# _Staff News API_
 
 #### By Margaret Mutungi
 
@@ -22,10 +22,14 @@ News can be general or departmental.
 * Open it on your IDE
 * Create the databases as using the commands provided. Be sure to alter your database login credentials in the DB.java file in the main folder and the DatabaseRule File in the tests folder.
 ```postgres-sql
-CREATE DATABASE site_maintenance;
-CREATE TABLE engineers(id SERIAL PRIMARY KEY, name varchar, eknumber int, phone varchar);
-CREATE TABLE sites(id SERIAL PRIMARY KEY, name varchar, location varchar,  engineerid int);
-CREATE DATABASE site_maintenance_test WITH TEMPLATE site_maintenance;
+CREATE DATABASE staff_app;
+
+CREATE TABLE users(id SERIAL PRIMARY KEY, name VARCHAR, eknumber int, departmentid int, position VARCHAR, role VARCHAR);
+CREATE TABLE department_news(id SERIAL PRIMARY KEY, title VARCHAR, content TEXT, createdat BIGINT, departmentid int);
+CREATE TABLE general_news(id SERIAL PRIMARY KEY, title VARCHAR, content TEXT, createdat BIGINT);
+CREATE TABLE department(id SERIAL PRIMARY KEY, name VARCHAR, description VARCHAR, employeecount int);
+
+CREATE DATABASE staff_app_test WITH TEMPLATE staff_app;
 ```
 You can also visit the live site on https://staffappip.herokuapp.com for live interaction.
 
@@ -79,6 +83,20 @@ You can also visit the live site on https://staffappip.herokuapp.com for live in
 * Get details of specific general news: /generalnews/:generalnewsid
 * Get a department's news: /departmentnews/:departmentid
 * Get details of individual department news: /departmentnews/:departmentid/:departmentnewsid
+
+### Deleting
+* Delete all departments, users, generalnews, departmentnews:
+```
+/departmentsdeleteall
+/usersdeleteall
+/generaldeleteall
+/departmentnewsdeleteall
+```
+
+* Delete single department news: /departmentnews/:departmentid/:newsid/delete
+* Delete single general news: /generalnews/:newsid/delete
+* Delete single user: /users/:userid/delete
+* Delete single department: /departments/:departmentid/delete
 
 
 ## Running tests

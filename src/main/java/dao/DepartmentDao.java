@@ -19,7 +19,7 @@ public interface DepartmentDao {
 //    //UPDATE
 //    void update(int id, int ekNumber, String name, String phone);
 //
-//    //DELETE
-//    void deleteById(int id);
-//    void clearAllEngineers();
+    //DELETE
+    void deleteById(int id);
+    void clearAllDepartments();
 }

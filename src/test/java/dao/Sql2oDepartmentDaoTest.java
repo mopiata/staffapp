@@ -79,6 +79,7 @@ public class Sql2oDepartmentDaoTest {
     @Test
     public void updateEmployeeCountSetsCount() {
         Department department=addDepartment();
+        departmentDao.add(department);
         User user=new User("Evans Matunda",5555,department.getId(),"Engineer, VAS", "Taking care of values added services");
         userDao.add(user);
         int count = departmentDao.getUsers(user.getDepartmentId()).size();
@@ -88,5 +89,27 @@ public class Sql2oDepartmentDaoTest {
 
         System.out.println(department.getEmployeeCount());
         assertTrue(department.getEmployeeCount()==1);
+    }
+
+    @Test
+    public void deleteByIdDeletesDepartment() {
+        Department department=addDepartment();
+        departmentDao.add(department);
+        departmentDao.deleteById(department.getId());
+
+        assertTrue(departmentDao.getAll().size()==0);
+    }
+
+    @Test
+    public void clearDeletesAllDepartment() {
+        Department department=addDepartment();
+        Department otherDepartment=otherDepartment();
+        departmentDao.add(department);
+        departmentDao.add(otherDepartment);
+        int originalSize=departmentDao.getAll().size();
+
+        departmentDao.clearAllDepartments();
+
+        assertFalse(departmentDao.getAll().size()==originalSize);
     }
 }

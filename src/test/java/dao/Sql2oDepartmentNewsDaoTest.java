@@ -70,4 +70,28 @@ public class Sql2oDepartmentNewsDaoTest {
         DepartmentNews foundNews=departmentNewsDao.findById(departmentNews.getId());
         assertEquals(foundNews,departmentNews);
     }
+
+    @Test
+    public void deleteByIdDeletesDepartment() {
+        DepartmentNews departmentNews=addDepartmentNews();
+        departmentNewsDao.add(departmentNews);
+        departmentNewsDao.deleteById(departmentNews.getId());
+
+        assertTrue(departmentNewsDao.getAll().size()==0);
+    }
+
+    @Test
+    public void clearDeletesAllDepartment() {
+        DepartmentNews departmentNews=addDepartmentNews();
+        DepartmentNews otherDepartmentNews=otherDepartmentNews();
+
+        departmentNewsDao.add(departmentNews);
+        departmentNewsDao.add(otherDepartmentNews);
+
+        int originalSize=departmentNewsDao.getAll().size();
+
+        departmentNewsDao.clearAllNews();
+
+        assertFalse(departmentNewsDao.getAll().size()==originalSize);
+    }
 }

@@ -73,4 +73,28 @@ public class Sql2oUserDaoTest {
         assertEquals(foundUser,user);
     }
 
+    @Test
+    public void deleteByIdDeletesDepartment() {
+        User user=addUser();
+        userDao.add(user);
+        userDao.deleteById(user.getId());
+
+        assertTrue(userDao.getAll().size()==0);
+    }
+
+    @Test
+    public void clearDeletesAllDepartment() {
+        User user=addUser();
+        User otherUser=otherUser();
+
+        userDao.add(user);
+        userDao.add(otherUser);
+
+        int originalSize=userDao.getAll().size();
+
+        userDao.clearAllUsers();
+
+        assertFalse(userDao.getAll().size()==originalSize);
+    }
+
 }

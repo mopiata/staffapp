@@ -51,4 +51,25 @@ public class Sql2oNewsDao implements NewsDao{
         }
     }
 
+    @Override
+    public void deleteById(int id){
+        String sql="DELETE FROM general_news WHERE id=:id;";
+
+        try(Connection con=DB.sql2o.open()){
+            con.createQuery(sql)
+                    .addParameter("id",id)
+                    .executeUpdate();
+        }
+    }
+
+    @Override
+    public void clearAllNews(){
+        String sql="DELETE FROM general_news *;";
+
+        try(Connection con=DB.sql2o.open()){
+            con.createQuery(sql)
+                    .executeUpdate();
+        }
+    }
+
 }

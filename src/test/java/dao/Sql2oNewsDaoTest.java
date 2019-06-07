@@ -62,4 +62,27 @@ public class Sql2oNewsDaoTest {
         assertEquals(news, foundNews);
     }
 
+    @Test
+    public void deleteByIdDeletesDepartment() {
+        News news=addNews();
+        newsDao.add(news);
+        newsDao.deleteById(news.getId());
+
+        assertTrue(newsDao.getAll().size()==0);
+    }
+
+    @Test
+    public void clearDeletesAllDepartment() {
+        News news=addNews();
+        News otherNews=otherNews();
+
+        newsDao.add(news);
+        newsDao.add(otherNews);
+
+        int originalSize=newsDao.getAll().size();
+
+        newsDao.clearAllNews();
+
+        assertFalse(newsDao.getAll().size()==originalSize);
+    }
 }
