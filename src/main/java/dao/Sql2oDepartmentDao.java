@@ -17,7 +17,7 @@ public class Sql2oDepartmentDao implements DepartmentDao {
 
     @Override
     public void add(Department department){
-        String sql="INSERT INTO departments (name,description) VALUES (:name, :description);";
+        String sql="INSERT INTO departments (name,description, employeecount) VALUES (:name, :description, :employeeCount);";
 
         try(Connection con=DB.sql2o.open()){
             int id = (int) con.createQuery(sql, true)
@@ -51,6 +51,7 @@ public class Sql2oDepartmentDao implements DepartmentDao {
 
 //    public int userCountPerDepartment(int departmentid){
 //        String sql="SELECT * FROM users WHERE id=:departmentId;";
+//        String departmentQuery="UPDATE departments SET employeecount = :employeecount WHERE departmentid=:departmentId;";
 //
 //        List<User> departmentUsers=new ArrayList<>();
 //
@@ -59,8 +60,24 @@ public class Sql2oDepartmentDao implements DepartmentDao {
 //                    .addParameter("departmentid",departmentid)
 //                    .executeAndFetch(User.class);
 //
+//            con.createQuery(departmentQuery)
+//                    .addParameter("departmentid",departmentid)
+//                    .executeUpdate();
+//
 //            return departmentUsers.size();
 //        }
 //    }
+
+    public void addEmployeeCount(Department department){
+        int newcount=department.getEmployeeCount()+1;
+        department.setEmployeeCount(newcount);
+
+        try(Connection con = DB.sql2o.open()) {
+            String sql = "UPDATE departments SET employeecount = :employeecount WHERE departmentid=:departmentId;";
+            con.createQuery(sql)
+                    .bind(department)
+                    .executeUpdate();
+        }
+    }
 
 }

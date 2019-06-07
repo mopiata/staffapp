@@ -26,9 +26,95 @@ public class App {
             if(departmentDao.getAll().size()>0){
                 return gson.toJson(departmentDao.getAll());
             }else {
-                return "{\"message\":\"I'm sorry, but no restaurants are currently listed in the database.\"}";
+                return "{\"message\":\"I'm sorry, but no departments are currently listed in the database.\"}";
             }
-    });
+        });
+
+        get("/departments/:id","application/json",(request, response) -> {
+            if(departmentDao.findById(Integer.parseInt(request.params("id")))!=null){
+                return gson.toJson(departmentDao.findById(Integer.parseInt(request.params("id"))));
+            }else{
+                return "{\"message\":\"I'm sorry, but no users are currently listed in the database.\"}";
+            }
+        });
+
+        post("/departments/new","application/json", (request, response) -> {
+            Department department=gson.fromJson(request.body(), Department.class);
+            departmentDao.add(department);
+            response.status(201);
+            return  gson.toJson(department);
+        });
+
+        get("/users","application/json",(request, response) -> {
+            if(userDao.getAll().size()>0){
+                return gson.toJson(userDao.getAll());
+            }else{
+                return "{\"message\":\"I'm sorry, but no users are currently listed in the database.\"}";
+            }
+        });
+
+        get("/users/:id","application/json",(request, response) -> {
+            if(userDao.findById(Integer.parseInt(request.params("id")))!=null){
+                return gson.toJson(userDao.findById(Integer.parseInt(request.params("id"))));
+            }else{
+                return "{\"message\":\"I'm sorry, but no users are currently listed in the database.\"}";
+            }
+        });
+
+        post("/users/new","application/json", (request, response) -> {
+            User user=gson.fromJson(request.body(), User.class);
+            userDao.add(user);
+//            Department department=departmentDao.findById(user.getDepartmentId());
+//            department.setEmployeeCount(departmentDao.userCountPerDepartment(user.getDepartmentId()));
+            response.status(201);
+            return  gson.toJson(user);
+        });
+
+        get("/generalnews","application/json",(request, response) -> {
+            if(newsDao.getAll().size()>0){
+                return gson.toJson(newsDao.getAll());
+            }else{
+                return "{\"message\":\"I'm sorry, but no staff news is currently listed in the database.\"}";
+            }
+        });
+
+        get("/generalnews/:id","application/json",(request, response) -> {
+            if(newsDao.findById(Integer.parseInt(request.params("id")))!=null){
+                return gson.toJson(newsDao.findById(Integer.parseInt(request.params("id"))));
+            }else{
+                return "{\"message\":\"I'm sorry, but no staff news is currently listed in the database.\"}";
+            }
+        });
+
+        post("/generalnews/new","application/json", (request, response) -> {
+            News news=gson.fromJson(request.body(), News.class);
+            newsDao.add(news);
+            response.status(201);
+            return  gson.toJson(news);
+        });
+
+        get("/departmentnews/:id","application/json",(request, response) -> {
+            if(departmentNewsDao.getAllByDepartmentId(Integer.parseInt(request.params("id"))).size()>0){
+                return gson.toJson(departmentNewsDao.getAllByDepartmentId(Integer.parseInt(request.params("id"))));
+            }else{
+                return "{\"message\":\"I'm sorry, but no staff news is currently listed in the database.\"}";
+            }
+        });
+
+        get("/departmentnews/:id/:newsid","application/json",(request, response) -> {
+            if(departmentNewsDao.getAllByDepartmentId(Integer.parseInt(request.params("id"))).size()>0 && departmentNewsDao.findById(Integer.parseInt(request.params("newsid")))!=null){
+                return gson.toJson(departmentNewsDao.findById(Integer.parseInt(request.params("newsid"))));
+            }else{
+                return "{\"message\":\"I'm sorry, but no staff news is currently listed in the database.\"}";
+            }
+        });
+
+        post("/departmentnews/new","application/json", (request, response) -> {
+            DepartmentNews news=gson.fromJson(request.body(), DepartmentNews.class);
+            departmentNewsDao.add(news);
+            response.status(201);
+            return  gson.toJson(news);
+        });
 
         //filters
         after((request, response) ->{

@@ -12,6 +12,7 @@ public class Department {
     public Department(String name, String description){
         this.name=name;
         this.description=description;
+        this.employeeCount=0;
     }
 
     public int getId() {

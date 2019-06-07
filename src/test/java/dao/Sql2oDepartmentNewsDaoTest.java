@@ -50,18 +50,16 @@ public class Sql2oDepartmentNewsDaoTest {
     }
 
     @Test
-    public void getAllReturnsAllDepartmentNews() throws Exception {
+    public void getAllByDepartmentReturnsAllDepartmentNewsInDepartment() throws Exception {
         DepartmentNews departmentNews=addDepartmentNews();
         DepartmentNews otherDepartmentNews=otherDepartmentNews();
 
         departmentNewsDao.add(departmentNews);
         departmentNewsDao.add(otherDepartmentNews);
 
-        List<DepartmentNews> departmentNewsList=departmentNewsDao.getAll();
-        assertTrue(departmentNewsList.size()==2);
+        List<DepartmentNews> departmentNewsList=departmentNewsDao.getAllByDepartmentId(departmentNews.getDepartmentId());
+        assertTrue(departmentNewsList.size()==1);
         assertTrue(departmentNewsList.contains(departmentNews));
-        assertTrue(departmentNewsList.contains(otherDepartmentNews));
-
     }
 
     @Test
@@ -70,7 +68,6 @@ public class Sql2oDepartmentNewsDaoTest {
         departmentNewsDao.add(departmentNews);
 
         DepartmentNews foundNews=departmentNewsDao.findById(departmentNews.getId());
-
         assertEquals(foundNews,departmentNews);
     }
 }

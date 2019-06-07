@@ -73,5 +73,14 @@ public class Sql2oUserDaoTest {
         assertEquals(foundUser,user);
     }
 
-
+//    @Test
+//    public void addingAUserIncreasesEmployeeCountInDepartment() {
+//        Department department=addDepartment();
+//        departmentDao.add(department);
+//
+//        int originalEmployeeCount=department.getEmployeeCount();
+//        User user=new User("Martin",4563,department.getId(),"Engineer","Engineering");
+//
+//        assertNotEquals(originalEmployeeCount,department.getEmployeeCount());
+//    }
 }

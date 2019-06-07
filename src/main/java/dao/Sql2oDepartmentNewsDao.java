@@ -27,15 +27,15 @@ public class Sql2oDepartmentNewsDao implements DepartmentNewsDao {
         }
     }
 
-    @Override
-    public List<DepartmentNews> getAll(){
-        String sql="SELECT * FROM department_news;";
-
-        try (Connection con=DB.sql2o.open()){
-            return con.createQuery(sql)
-                    .executeAndFetch(DepartmentNews.class);
-        }
-    }
+//    @Override
+//    public List<DepartmentNews> getAll(){
+//        String sql="SELECT * FROM department_news;";
+//
+//        try (Connection con=DB.sql2o.open()){
+//            return con.createQuery(sql)
+//                    .executeAndFetch(DepartmentNews.class);
+//        }
+//    }
 
     @Override
     public DepartmentNews findById(int id){
@@ -47,4 +47,18 @@ public class Sql2oDepartmentNewsDao implements DepartmentNewsDao {
                     .executeAndFetchFirst(DepartmentNews.class);
         }
     }
+
+    @Override
+    public List<DepartmentNews> getAllByDepartmentId(int departmentid){
+        String sql="SELECT * FROM department_news WHERE departmentid=:departmentid;";
+
+        try(Connection con=DB.sql2o.open()){
+            return con.createQuery(sql)
+                    .addParameter("departmentid",departmentid)
+                    .executeAndFetch(DepartmentNews.class);
+        }
+    }
+
+
+
 }
