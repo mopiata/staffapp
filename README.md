@@ -29,6 +29,58 @@ CREATE DATABASE site_maintenance_test WITH TEMPLATE site_maintenance;
 ```
 You can also visit the live site on https://staffappip.herokuapp.com for live interaction.
 
+## Using the API
+### Post using Postman
+* Add department(POST): /departments/new
+```
+{
+"name": "Brand",
+"employeeCount": 0,
+"description": "Company brand image"
+}
+```
+
+* Add user(POST): /users/new
+```
+{
+"name": "Maria",
+"eknumber": 6737,
+"departmentId": 1,
+"position": "Engineer",
+"role": "Engineering"
+}
+```
+
+* Add general_news(POST): /generalnews/new
+```
+{
+"title": "Crazy Deals",
+"content": "Shoo bee shoo bee",
+"createdat": 54667283849
+}
+```
+
+* Add department_news(POST): /departmentnews/new
+```
+{
+"departmentId": 1,
+"title": "Stinger",
+"content": "He pleases the customers again with speed, simplicity and trust",
+"createdat": 54667283849
+}
+```
+### Get using the paths. Path base(https://staffappip.herokuapp.com)
+* Get all Departments: /departments
+* Get single Department: //departments/:departmentid
+* Get all users in a department: /departments/:departmentid/users
+* Get all users: /users
+* Get specific user: /users/:userid
+* Get all general news: /generalnews
+* Get details of specific general news: /generalnews/:generalnewsid
+* Get a department's news: /departmentnews/:departmentid
+* Get details of individual department news: /departmentnews/:departmentid/:departmentnewsid
+
+
 ## Running tests
 * Navigate to any of the files in src/test/java
 * Open the file
