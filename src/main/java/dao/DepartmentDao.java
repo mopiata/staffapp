@@ -14,6 +14,7 @@ public interface DepartmentDao {
     Department findById(int id);
 //    void userCountPerDepartment(Department department);
     List<User> getUsers(int id);
+    void updateEmployeeCount(int departmentid, int employeecount);
 
 //    //UPDATE
 //    void update(int id, int ekNumber, String name, String phone);

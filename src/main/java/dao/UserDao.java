@@ -11,6 +11,7 @@ public interface UserDao {
     List<User> getAll();
     User findById(int id);
 
+
 //    //UPDATE
 //    void update(int id, int ekNumber, String name, String phone);
 //

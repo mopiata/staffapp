@@ -95,6 +95,10 @@ public class App {
         post("/users/new","application/json", (request, response) -> {
             User user=gson.fromJson(request.body(), User.class);
             userDao.add(user);
+            int count = departmentDao.getUsers(user.getDepartmentId()).size();
+            int depId = user.getDepartmentId();
+            departmentDao.findById(depId).setEmployeeCount(count);
+            departmentDao.updateEmployeeCount(depId, count);
             response.status(201);
             return  gson.toJson(user);
         });

@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Sql2oDepartmentDao implements DepartmentDao {
     private final Sql2o sql2o;
+//    Sql2oDepartmentDao departmentDao=new Sql2oDepartmentDao(DB.sql2o);
 
     public  Sql2oDepartmentDao(Sql2o sql2o){
         this.sql2o=sql2o;
@@ -93,5 +94,17 @@ public class Sql2oDepartmentDao implements DepartmentDao {
         }
     }
 
+    @Override
+    public void updateEmployeeCount(int id, int employeeCount){
+
+        String sql="UPDATE departments SET employeecount = :employeeCount WHERE id=:id;";
+
+        try(Connection con=DB.sql2o.open()){
+            con.createQuery(sql)
+                    .addParameter("id",id)
+                    .addParameter("employeeCount",employeeCount)
+                    .executeUpdate();
+        }
+    }
 
 }

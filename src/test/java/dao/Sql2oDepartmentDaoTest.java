@@ -75,4 +75,18 @@ public class Sql2oDepartmentDaoTest {
         assertTrue(departmentDao.getUsers(department.getId()).contains(newUser));
         assertFalse(departmentDao.getUsers(department.getId()).contains(otherUser));
     }
+
+    @Test
+    public void updateEmployeeCountSetsCount() {
+        Department department=addDepartment();
+        User user=new User("Evans Matunda",5555,department.getId(),"Engineer, VAS", "Taking care of values added services");
+        userDao.add(user);
+        int count = departmentDao.getUsers(user.getDepartmentId()).size();
+        department.setEmployeeCount(count);
+        int depId = user.getDepartmentId();
+        departmentDao.updateEmployeeCount(depId, count);
+
+        System.out.println(department.getEmployeeCount());
+        assertTrue(department.getEmployeeCount()==1);
+    }
 }
