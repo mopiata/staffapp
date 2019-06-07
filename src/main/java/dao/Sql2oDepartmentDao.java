@@ -1,7 +1,10 @@
 package dao;
 
 import models.Department;
+import models.User;
 import org.sql2o.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sql2oDepartmentDao implements DepartmentDao {
@@ -10,6 +13,7 @@ public class Sql2oDepartmentDao implements DepartmentDao {
     public  Sql2oDepartmentDao(Sql2o sql2o){
         this.sql2o=sql2o;
     }
+
 
     @Override
     public void add(Department department){
@@ -43,5 +47,20 @@ public class Sql2oDepartmentDao implements DepartmentDao {
                     .executeAndFetchFirst(Department.class);
         }
     }
+
+
+//    public int userCountPerDepartment(int departmentid){
+//        String sql="SELECT * FROM users WHERE id=:departmentId;";
+//
+//        List<User> departmentUsers=new ArrayList<>();
+//
+//        try(Connection con=DB.sql2o.open()) {
+//            departmentUsers=con.createQuery(sql)
+//                    .addParameter("departmentid",departmentid)
+//                    .executeAndFetch(User.class);
+//
+//            return departmentUsers.size();
+//        }
+//    }
 
 }

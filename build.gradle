@@ -18,6 +18,7 @@ dependencies {
     compile 'org.sql2o:sql2o:1.5.4'
     compile 'org.slf4j:slf4j-simple:1.7.26'
     compile "com.sparkjava:spark-core:2.8.0"
+    compile 'com.google.code.gson:gson:2.5'
     compile group: 'org.postgresql', name: 'postgresql', version: "9.4-1201-jdbc41"
 }
 

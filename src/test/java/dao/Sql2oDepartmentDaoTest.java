@@ -1,6 +1,7 @@
 package dao;
 
 import models.Department;
+import models.User;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -57,4 +58,20 @@ public class Sql2oDepartmentDaoTest {
         Department foundDepartment=departmentDao.findById(department.getId());
         assertEquals(department, foundDepartment);
     }
+
+//    @Test
+//    public void userCountPerDepartmentReturnsNumberOfUsers() {
+//        Department department=addDepartment();
+//        departmentDao.add(department);
+//        System.out.println(department.getEmployeeCount());
+//
+//        User user=new User("Ezra Omondi",7394,department.getId(),"Senior Officer, Learning", "Planning for and organizing learning for division;");
+//        User otherUser=new User("Evans Matunda",5555,department.getId(),"Engineer, VAS", "Taking care of values added services");
+//
+//        departmentDao.userCountPerDepartment(department);
+//        System.out.println(department.getEmployeeCount());
+//
+//        assertTrue(1==2);
+//
+//    }
 }

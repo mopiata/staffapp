@@ -10,8 +10,8 @@ import static org.junit.Assert.*;
 
 public class Sql2oDepartmentNewsDaoTest {
 
-    public static Sql2oDepartmentNewsDao departmentNewsDao=new Sql2oDepartmentNewsDao(DB.sql2o);
-    public static Sql2oDepartmentDao departmentDao=new Sql2oDepartmentDao(DB.sql2o);
+    private static Sql2oDepartmentNewsDao departmentNewsDao=new Sql2oDepartmentNewsDao(DB.sql2o);
+    private static Sql2oDepartmentDao departmentDao=new Sql2oDepartmentDao(DB.sql2o);
 
     //helper methods
     public Department addDepartment() {
