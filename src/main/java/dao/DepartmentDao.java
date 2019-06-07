@@ -1,6 +1,7 @@
 package dao;
 
 import models.Department;
+import models.User;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ public interface DepartmentDao {
     List<Department> getAll();
     Department findById(int id);
 //    void userCountPerDepartment(Department department);
+    List<User> getUsers(int id);
 
 //    //UPDATE
 //    void update(int id, int ekNumber, String name, String phone);

@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 public class Sql2oDepartmentDaoTest {
 
     private static Sql2oDepartmentDao departmentDao=new Sql2oDepartmentDao(DB.sql2o);
+    private Sql2oUserDao userDao=new Sql2oUserDao(DB.sql2o);
 
     public Department addDepartment() {
         return new Department("Brand and Marketing", "Handles marketing and brand image for the company");
@@ -59,19 +60,19 @@ public class Sql2oDepartmentDaoTest {
         assertEquals(department, foundDepartment);
     }
 
-//    @Test
-//    public void userCountPerDepartmentReturnsNumberOfUsers() {
-//        Department department=addDepartment();
-//        departmentDao.add(department);
-//        System.out.println(department.getEmployeeCount());
-//
-//        User user=new User("Ezra Omondi",7394,department.getId(),"Senior Officer, Learning", "Planning for and organizing learning for division;");
-//        User otherUser=new User("Evans Matunda",5555,department.getId(),"Engineer, VAS", "Taking care of values added services");
-//
-//        departmentDao.userCountPerDepartment(department);
-//        System.out.println(department.getEmployeeCount());
-//
-//        assertTrue(1==2);
-//
-//    }
+    @Test
+    public void getUsersReturnsAllDepartmentUsers() throws Exception {
+        Department department=addDepartment();
+        departmentDao.add(department);
+        Department otherDepartment=otherDepartment();
+        departmentDao.add(otherDepartment);
+
+        User newUser=new User("Evans Matunda",5555,department.getId(),"Engineer, VAS", "Taking care of values added services");
+        User otherUser=new User("Ezra Omondi",7394,otherDepartment.getId(),"Senior Officer, Learning", "Planning for and organizing learning for division;");
+        userDao.add(newUser);
+        userDao.add(otherUser);
+
+        assertTrue(departmentDao.getUsers(department.getId()).contains(newUser));
+        assertFalse(departmentDao.getUsers(department.getId()).contains(otherUser));
+    }
 }

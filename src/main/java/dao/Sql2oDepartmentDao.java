@@ -49,35 +49,49 @@ public class Sql2oDepartmentDao implements DepartmentDao {
     }
 
 
-//    public int userCountPerDepartment(int departmentid){
-//        String sql="SELECT * FROM users WHERE id=:departmentId;";
-//        String departmentQuery="UPDATE departments SET employeecount = :employeecount WHERE departmentid=:departmentId;";
+//    public void userCountPerDepartment(int departmentid){
+//        String sql="SELECT * FROM users WHERE departmentid=:departmentId;";
+//        String departmentFind="SELECT * FROM departments WHERE id=:departmentId;";
+//
 //
 //        List<User> departmentUsers=new ArrayList<>();
+//        List<Department> departments=new ArrayList<>();
 //
 //        try(Connection con=DB.sql2o.open()) {
 //            departmentUsers=con.createQuery(sql)
-//                    .addParameter("departmentid",departmentid)
+//                    .addParameter("departmentId",departmentid)
 //                    .executeAndFetch(User.class);
 //
-//            con.createQuery(departmentQuery)
-//                    .addParameter("departmentid",departmentid)
-//                    .executeUpdate();
+//            departments.add(con.createQuery(departmentFind)
+//            .executeAndFetchFirst(Department.class));
 //
-//            return departmentUsers.size();
+//            departments.get(0).setEmployeeCount(departmentUsers.size());
+//
+//        }
+//    }
+//
+//    public void addEmployeeCount(Department department){
+//        int newcount=department.getEmployeeCount()+1;
+//        department.setEmployeeCount(newcount);
+//
+//        try(Connection con = DB.sql2o.open()) {
+//            String sql = "UPDATE departments SET employeecount = :employeeCount WHERE departmentid=:departmentId;";
+//            con.createQuery(sql)
+//                    .bind(department)
+//                    .executeUpdate();
 //        }
 //    }
 
-    public void addEmployeeCount(Department department){
-        int newcount=department.getEmployeeCount()+1;
-        department.setEmployeeCount(newcount);
+    @Override
+    public List<User> getUsers(int id){
+        String sql="SELECT * FROM users WHERE departmentid=:id;";
 
-        try(Connection con = DB.sql2o.open()) {
-            String sql = "UPDATE departments SET employeecount = :employeecount WHERE departmentid=:departmentId;";
-            con.createQuery(sql)
-                    .bind(department)
-                    .executeUpdate();
+        try(Connection con=DB.sql2o.open()){
+            return  con.createQuery(sql)
+                    .addParameter("id",id)
+                    .executeAndFetch(User.class);
         }
     }
+
 
 }

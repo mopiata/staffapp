@@ -61,4 +61,5 @@ public class Sql2oNewsDaoTest {
         System.out.println(news.getId());
         assertEquals(news, foundNews);
     }
+
 }

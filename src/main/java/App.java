@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import static spark.Spark.*;
+import exceptions.ApiException;
 
 public class App {
     public static void main(String[] args) {
@@ -29,8 +30,7 @@ public class App {
         Sql2oDepartmentNewsDao departmentNewsDao=new Sql2oDepartmentNewsDao(DB.sql2o);
         Sql2oUserDao userDao=new Sql2oUserDao(DB.sql2o);
         Sql2oNewsDao newsDao=new Sql2oNewsDao(DB.sql2o);
-//        Connection conn;
-//        conn=DB.sql2o.open();
+
         Gson gson=new Gson();
 
         get("/departments","application/json",(request, response) -> {
@@ -41,11 +41,31 @@ public class App {
             }
         });
 
+        get("/","application/json",(request, response) -> {
+            if(newsDao.getAll().size()>0){
+                return gson.toJson(newsDao.getAll());
+            }else{
+                return "{\"message\":\"I'm sorry, but no staff news is currently listed in the database.\"}";
+            }
+        });
+
         get("/departments/:id","application/json",(request, response) -> {
             if(departmentDao.findById(Integer.parseInt(request.params("id")))!=null){
                 return gson.toJson(departmentDao.findById(Integer.parseInt(request.params("id"))));
             }else{
-                return "{\"message\":\"I'm sorry, but no users are currently listed in the database.\"}";
+                throw new ApiException(404, String.format("No department with the id: %s exists", request.params("id")));
+            }
+        });
+
+        get("/departments/:id/users","application/json",(request, response) -> {
+            if(departmentDao.findById(Integer.parseInt(request.params("id")))!=null){
+                if(departmentDao.getUsers(Integer.parseInt(request.params("id"))).size()>0 ){
+                    return gson.toJson(departmentDao.getUsers(Integer.parseInt(request.params("id"))));
+                }else{
+                    return "{\"message\":\"I'm sorry, but no users are currently listed in the database for this department.\"}";
+                }
+            }else {
+                throw new ApiException(404, String.format("No department with the id: %s exists", request.params("id")));
             }
         });
 
@@ -68,14 +88,14 @@ public class App {
             if(userDao.findById(Integer.parseInt(request.params("id")))!=null){
                 return gson.toJson(userDao.findById(Integer.parseInt(request.params("id"))));
             }else{
-                return "{\"message\":\"I'm sorry, but no users are currently listed in the database.\"}";
+                throw new ApiException(404, String.format("No user with the id: %s exists", request.params("id")));
             }
         });
 
         post("/users/new","application/json", (request, response) -> {
             User user=gson.fromJson(request.body(), User.class);
             userDao.add(user);
-//            Department department=departmentDao.findById(user.getDepartmentId());
+            Department department=departmentDao.findById(user.getDepartmentId());
 //            department.setEmployeeCount(departmentDao.userCountPerDepartment(user.getDepartmentId()));
             response.status(201);
             return  gson.toJson(user);
@@ -93,7 +113,7 @@ public class App {
             if(newsDao.findById(Integer.parseInt(request.params("id")))!=null){
                 return gson.toJson(newsDao.findById(Integer.parseInt(request.params("id"))));
             }else{
-                return "{\"message\":\"I'm sorry, but no staff news is currently listed in the database.\"}";
+                throw new ApiException(404, String.format("No staff news with the id: %s exists", request.params("id")));
             }
         });
 
@@ -108,16 +128,22 @@ public class App {
             if(departmentNewsDao.getAllByDepartmentId(Integer.parseInt(request.params("id"))).size()>0){
                 return gson.toJson(departmentNewsDao.getAllByDepartmentId(Integer.parseInt(request.params("id"))));
             }else{
-                return "{\"message\":\"I'm sorry, but no staff news is currently listed in the database.\"}";
+                throw new ApiException(404, String.format("No department news with the id: %s exists for this department", request.params("id")));
             }
         });
 
         get("/departmentnews/:id/:newsid","application/json",(request, response) -> {
-            if(departmentNewsDao.getAllByDepartmentId(Integer.parseInt(request.params("id"))).size()>0 && departmentNewsDao.findById(Integer.parseInt(request.params("newsid")))!=null){
-                return gson.toJson(departmentNewsDao.findById(Integer.parseInt(request.params("newsid"))));
-            }else{
-                return "{\"message\":\"I'm sorry, but no staff news is currently listed in the database.\"}";
+
+            if(departmentDao.findById(Integer.parseInt(request.params("id")))!=null){
+                if(departmentNewsDao.findById(Integer.parseInt(request.params("newsid")))!=null ){
+                    return gson.toJson(departmentDao.getUsers(Integer.parseInt(request.params("id"))));
+                }else{
+                    throw new ApiException(404, String.format("No news with the id: %s exists in this department", request.params("newsid")));
+                }
+            }else {
+                throw new ApiException(404, String.format("No department with the id: %s exists", request.params("id")));
             }
+
         });
 
         post("/departmentnews/new","application/json", (request, response) -> {
@@ -131,5 +157,15 @@ public class App {
         after((request, response) ->{
             response.type("application/json");
         } );
+
+        exception(ApiException.class, (exc,req,res)->{
+            ApiException err = (ApiException) exc;
+            Map<String, Object> jsonmap = new HashMap<>();
+            jsonmap.put("status",err.getStatusCode());
+            jsonmap.put("errorMessage", err.getMessage());
+            res.type("application/json"); //after doesn't run in case of an exception
+            res.status(err.getStatusCode());
+            res.body(gson.toJson(jsonmap));
+        });
     }
 }
